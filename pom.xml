@@ -19,4 +19,18 @@
         <bytebuddy.version>1.8.5</bytebuddy.version>
     </properties>
 
+    <build>
+        <plugins>
+            <!-- 编译版本和编码设置 -->
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <source>${compiler.version}</source>
+                    <target>${compiler.version}</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
