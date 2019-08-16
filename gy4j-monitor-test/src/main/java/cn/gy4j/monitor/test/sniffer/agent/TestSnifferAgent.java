@@ -14,5 +14,6 @@ public class TestSnifferAgent {
      */
     public static void main(String[] args) {
         System.out.println("hello javaagent!this is main!");
+        new TestInstrumentation().print();
     }
 }
