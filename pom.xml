@@ -12,6 +12,11 @@
         <module>gy4j-monitor-sniffer</module>
         <module>gy4j-monitor-test</module>
     </modules>
-
+    <properties>
+        <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
+        <compiler.version>1.8</compiler.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <bytebuddy.version>1.8.5</bytebuddy.version>
+    </properties>
 
 </project>

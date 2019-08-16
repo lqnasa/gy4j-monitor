@@ -5,7 +5,7 @@ package cn.gy4j.monitor.test.sniffer.agent;
  * Email    76429197@qq.com
  * Date     2019-08-16
  */
-public class TestInstrumentation {
+public class TestByteBuddy {
     public void print() {
         System.out.println(1);
     }

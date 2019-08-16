@@ -15,6 +15,14 @@
         <premain.class>cn.gy4j.monitor.sniffer.agent.SnifferAgent</premain.class>
     </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>net.bytebuddy</groupId>
+            <artifactId>byte-buddy</artifactId>
+            <version>${bytebuddy.version}</version>
+        </dependency>
+    </dependencies>
+
     <build>
         <finalName>sniffer-agent</finalName>
         <plugins>
@@ -47,6 +55,14 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>6</source>
+                    <target>6</target>
+                </configuration>
             </plugin>
         </plugins>
     </build>

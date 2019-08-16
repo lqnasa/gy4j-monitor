@@ -1,12 +1,19 @@
 package cn.gy4j.monitor.sniffer.agent;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.instrument.ClassFileTransformer;
-import java.lang.instrument.IllegalClassFormatException;
+import net.bytebuddy.ByteBuddy;
+import net.bytebuddy.agent.builder.AgentBuilder;
+import net.bytebuddy.description.method.MethodDescription;
+import net.bytebuddy.description.type.TypeDescription;
+import net.bytebuddy.dynamic.DynamicType;
+import net.bytebuddy.dynamic.scaffold.TypeValidation;
+import net.bytebuddy.implementation.MethodDelegation;
+import net.bytebuddy.matcher.ElementMatcher;
+import net.bytebuddy.matcher.ElementMatchers;
+import net.bytebuddy.utility.JavaModule;
+
 import java.lang.instrument.Instrumentation;
-import java.security.ProtectionDomain;
+
+import static net.bytebuddy.matcher.ElementMatchers.nameStartsWith;
 
 /**
  * javaagent代理入口
@@ -24,28 +31,65 @@ public class SnifferAgent {
      */
     public static void premain(String agentOps, Instrumentation inst) {
         System.out.println("hello javaagent!this is premain!");
-        inst.addTransformer(new Transformer());
+        // 基于ByteBuddy建立agent规则
+        final ByteBuddy byteBuddy = new ByteBuddy().with(TypeValidation.ENABLED);
+        new AgentBuilder.Default(byteBuddy)
+                .ignore(initIgnoreElementMatcher()) // 忽略规则
+                .type(ElementMatchers.<TypeDescription>named("cn.gy4j.monitor.test.sniffer.agent.TestByteBuddy")) // 匹配规则
+                .transform(new AgentTransformer()) // 转换规则
+                .with(new AgentListener()) // 侦听器
+                .installOn(inst);
     }
 
-    static class Transformer implements ClassFileTransformer {
-        public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined
-                , ProtectionDomain protectionDomain, byte[] classfileBuffer) throws IllegalClassFormatException {
-            if (className.equals("cn/gy4j/monitor/test/sniffer/agent/TestInstrumentation")) {
-                // TestInstrumentation.class.2(TestInstrumentation的print方法为System.out.println(2);的class文件)
-                InputStream inputStream = loader.getResourceAsStream("TestInstrumentation.class.2");
-                try {
-                    ByteArrayOutputStream output = new ByteArrayOutputStream();
-                    byte[] buffer = new byte[1024 * 4];
-                    int n = 0;
-                    while (-1 != (n = inputStream.read(buffer))) {
-                        output.write(buffer, 0, n);
-                    }
-                    return output.toByteArray();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            return null;
+    /**
+     * 忽略规则构建
+     *
+     * @return
+     */
+    private static ElementMatcher<TypeDescription> initIgnoreElementMatcher() {
+        // synthetic总的来说，是由编译器引入的字段、方法、类或其他结构，主要用于JVM内部使用
+        // 参考：https://blog.csdn.net/a327369238/article/details/52608805
+        return nameStartsWith("net.bytebuddy.").or(ElementMatchers.<TypeDescription>isSynthetic());
+    }
+
+    /**
+     * 转换规则构建
+     */
+    static class AgentTransformer implements AgentBuilder.Transformer {
+        @Override
+        public DynamicType.Builder<?> transform(DynamicType.Builder<?> builder, TypeDescription typeDescription, ClassLoader classLoader, JavaModule module) {
+            // 根据插件聚合转换规则
+            return builder.method(ElementMatchers.<MethodDescription>named("print"))
+                    .intercept(MethodDelegation.withDefaultConfiguration().to(new TestByteBuddyPrintInterceptor()));
+        }
+    }
+
+    /**
+     * 侦听器
+     */
+    static class AgentListener implements AgentBuilder.Listener {
+
+        @Override
+        public void onDiscovery(String typeName, ClassLoader classLoader, JavaModule module, boolean loaded) {
+        }
+
+        @Override
+        public void onTransformation(TypeDescription typeDescription, ClassLoader classLoader, JavaModule module, boolean loaded, DynamicType dynamicType) {
+            System.out.println("onTransformation:" + typeDescription);
+        }
+
+        @Override
+        public void onIgnored(TypeDescription typeDescription, ClassLoader classLoader, JavaModule module, boolean loaded) {
+        }
+
+        @Override
+        public void onError(String typeName, ClassLoader classLoader, JavaModule module, boolean loaded, Throwable throwable) {
+            throwable.printStackTrace();
+            System.out.println("onError:" + typeName);
+        }
+
+        @Override
+        public void onComplete(String typeName, ClassLoader classLoader, JavaModule module, boolean loaded) {
         }
     }
 }
