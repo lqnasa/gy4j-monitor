@@ -23,7 +23,5 @@ rebel.xml
 /nbdist/
 /.nb-gradle/
 
-monitor-agent-dist/
-/monitor-agent-dist/
-
+sniffer-agent-dist/
 
