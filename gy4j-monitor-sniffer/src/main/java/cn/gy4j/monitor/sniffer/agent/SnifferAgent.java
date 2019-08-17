@@ -1,5 +1,7 @@
 package cn.gy4j.monitor.sniffer.agent;
 
+import cn.gy4j.monitor.sniffer.logging.LoggerFactory;
+import cn.gy4j.monitor.sniffer.logging.api.ILogger;
 import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.agent.builder.AgentBuilder;
 import net.bytebuddy.description.method.MethodDescription;
@@ -23,6 +25,8 @@ import static net.bytebuddy.matcher.ElementMatchers.nameStartsWith;
  * Date     2019-08-16
  */
 public class SnifferAgent {
+    private static final ILogger logger = LoggerFactory.getLogger(TestByteBuddyPrintInterceptor.class);
+
     /**
      * 在方法在main方法之前执行，和main方法同Jvm、ClassLoader、Security policy和Context
      *
@@ -75,7 +79,7 @@ public class SnifferAgent {
 
         @Override
         public void onTransformation(TypeDescription typeDescription, ClassLoader classLoader, JavaModule module, boolean loaded, DynamicType dynamicType) {
-            System.out.println("onTransformation:" + typeDescription);
+            logger.info("onTransformation:" + typeDescription);
         }
 
         @Override
@@ -84,8 +88,7 @@ public class SnifferAgent {
 
         @Override
         public void onError(String typeName, ClassLoader classLoader, JavaModule module, boolean loaded, Throwable throwable) {
-            throwable.printStackTrace();
-            System.out.println("onError:" + typeName);
+            logger.error(throwable, "onError:" + typeName);
         }
 
         @Override

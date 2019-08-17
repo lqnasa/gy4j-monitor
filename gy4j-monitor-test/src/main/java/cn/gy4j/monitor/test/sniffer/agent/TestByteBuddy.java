@@ -7,10 +7,10 @@ package cn.gy4j.monitor.test.sniffer.agent;
  */
 public class TestByteBuddy {
     public void print() {
-        System.out.println("this is the  method:print");
+        System.out.println("this is the method:print");
     }
 
     public void printWithoutInterceptor() {
-        System.out.println("this is method:printWithoutInterceptor");
+        System.out.println("this is the method:printWithoutInterceptor");
     }
 }
