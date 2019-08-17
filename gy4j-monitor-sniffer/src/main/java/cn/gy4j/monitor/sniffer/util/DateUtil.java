@@ -11,12 +11,12 @@ import java.util.Date;
 public class DateUtil {
 
     /**
-     * 日期格式:年-月-日 时:分:秒:毫秒
+     * 日期格式:年-月-日 时:分:秒:毫秒.
      */
     private static final String DATEFORMAT_FULL = "yyyy-MM-dd HH:mm:ss:SSS";
 
     /**
-     * 当前的毫秒
+     * 当前的毫秒.
      *
      * @return
      */
@@ -25,7 +25,7 @@ public class DateUtil {
     }
 
     /**
-     * 日期转换为格式:年-月-日 时:分:秒:毫秒
+     * 日期转换为格式:年-月-日 时:分:秒:毫秒.
      *
      * @param date 被转换的日期
      * @return 格式化的日期字符串

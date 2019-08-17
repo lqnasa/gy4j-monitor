@@ -7,9 +7,9 @@ package cn.gy4j.monitor.sniffer.logging.api;
  */
 public interface IWriter {
     /**
-     * 输出日志
+     * 输出日志.
      *
-     * @param message
+     * @param message  日志内容
      */
     void write(String message);
 }

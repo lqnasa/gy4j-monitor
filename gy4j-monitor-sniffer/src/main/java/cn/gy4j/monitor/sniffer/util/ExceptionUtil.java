@@ -13,14 +13,14 @@ import java.io.PrintWriter;
  */
 public class ExceptionUtil {
     /**
-     * 获取异常的堆栈信息
+     * 获取异常的堆栈信息.
      *
-     * @param t
+     * @param throwable 异常对象
      * @return
      */
-    public static String format(Throwable t) {
+    public static String format(Throwable throwable) {
         ByteArrayOutputStream buf = new ByteArrayOutputStream();
-        t.printStackTrace(new PrintWriter(buf, true));
+        throwable.printStackTrace(new PrintWriter(buf, true));
         String expMeesage = buf.toString();
         try {
             buf.close();

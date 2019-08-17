@@ -7,9 +7,9 @@ package cn.gy4j.monitor.sniffer.util;
  */
 public class StringUtil {
     /**
-     * 判断字符串是否为空
+     * 判断字符串是否为空.
      *
-     * @param val
+     * @param val 字符串值
      * @return
      */
     public static boolean isEmpty(String val) {
@@ -17,19 +17,9 @@ public class StringUtil {
     }
 
     /**
-     * 判断字符串是否不为空
+     * 判断字符串数组是否为空.
      *
-     * @param val
-     * @return
-     */
-    public static boolean isNotEmpty(String val) {
-        return !isEmpty(val);
-    }
-
-    /**
-     * 判断字符串数组是否为空
-     *
-     * @param vals
+     * @param vals 数组对象
      * @return
      */
     public static boolean isEmpty(String[] vals) {
@@ -37,9 +27,19 @@ public class StringUtil {
     }
 
     /**
-     * 判断字符串数组是否不为空
+     * 判断字符串是否不为空.
      *
-     * @param vals
+     * @param val 字符串值
+     * @return
+     */
+    public static boolean isNotEmpty(String val) {
+        return !isEmpty(val);
+    }
+
+    /**
+     * 判断字符串数组是否不为空.
+     *
+     * @param vals 数组对象
      * @return
      */
     public static boolean isNotEmpty(String[] vals) {
@@ -47,7 +47,7 @@ public class StringUtil {
     }
 
     /**
-     * 使用间隔符将字符串列表拼接
+     * 使用间隔符将字符串列表拼接.
      *
      * @param delimiter 间隔符
      * @param strings   字符串列表

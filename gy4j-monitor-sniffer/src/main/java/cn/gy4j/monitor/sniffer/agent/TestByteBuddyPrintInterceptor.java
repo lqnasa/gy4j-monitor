@@ -15,6 +15,15 @@ import java.util.concurrent.Callable;
 public class TestByteBuddyPrintInterceptor {
     private static final ILogger logger = LoggerFactory.getLogger(TestByteBuddyPrintInterceptor.class);
 
+    /**
+     * 基于ByteBuddy的拦截方法.
+     *
+     * @param obj           对象
+     * @param allArguments  参数
+     * @param zuper         父对象
+     * @param method        方法
+     * @return
+     */
     @RuntimeType
     public Object intercept(@This Object obj,
                             @AllArguments Object[] allArguments,

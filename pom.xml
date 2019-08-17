@@ -9,6 +9,7 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
+        <module>gy4j-monitor-checkstyle</module>
         <module>gy4j-monitor-sniffer</module>
         <module>gy4j-monitor-test</module>
     </modules>
@@ -31,6 +32,49 @@
                     <target>${compiler.version}</target>
                     <encoding>${project.build.sourceEncoding}</encoding>
                 </configuration>
+            </plugin>
+            <!-- 代码规范检查 -->
+            <!-- mvn install -pl gy4j-monitor-checkstyle -am & mvn checkstyle:checkstyle -->
+            <!-- mvn install -pl gy4j-monitor-checkstyle -am & mvn jxr:jxr -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>3.1.0</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.puppycrawl.tools</groupId>
+                        <artifactId>checkstyle</artifactId>
+                        <version>8.23</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>cn.gy4j.monitor</groupId>
+                        <artifactId>gy4j-monitor-checkstyle</artifactId>
+                        <version>1.0-SNAPSHOT</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <id>validate</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <configLocation>checkstyle.xml</configLocation>
+                    <headerLocation>LICENSE.txt</headerLocation>
+                    <encoding>UTF-8</encoding>
+                    <consoleOutput>true</consoleOutput>
+                    <includeTestSourceDirectory>true</includeTestSourceDirectory>
+                    <failsOnError>false</failsOnError>
+                    <!--<excludes>**/cn/gy4j/monitor/checkstyle/**/*.java</excludes>-->
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jxr-plugin</artifactId>
+                <version>2.3</version>
             </plugin>
         </plugins>
     </build>

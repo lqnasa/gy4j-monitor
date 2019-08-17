@@ -7,7 +7,7 @@ package cn.gy4j.monitor.sniffer.constant;
  */
 public class Constants {
     /**
-     * 换行符
+     * 换行符.
      */
     public static final String LINE_SEPARATOR = System.getProperty("line.separator", "\n");
 }

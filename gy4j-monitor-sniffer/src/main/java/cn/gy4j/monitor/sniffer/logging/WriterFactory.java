@@ -12,7 +12,7 @@ import cn.gy4j.monitor.sniffer.logging.impl.SystemOutWriter;
  */
 public class WriterFactory {
     /**
-     * 获取日志输出对象
+     * 获取日志输出对象.
      *
      * @return 日志输出对象
      */

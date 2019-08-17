@@ -1,5 +1,6 @@
 package cn.gy4j.monitor.sniffer.agent;
 
+import net.bytebuddy.utility.JavaModule;
 import cn.gy4j.monitor.sniffer.logging.LoggerFactory;
 import cn.gy4j.monitor.sniffer.logging.api.ILogger;
 import net.bytebuddy.ByteBuddy;
@@ -11,14 +12,13 @@ import net.bytebuddy.dynamic.scaffold.TypeValidation;
 import net.bytebuddy.implementation.MethodDelegation;
 import net.bytebuddy.matcher.ElementMatcher;
 import net.bytebuddy.matcher.ElementMatchers;
-import net.bytebuddy.utility.JavaModule;
 
 import java.lang.instrument.Instrumentation;
 
 import static net.bytebuddy.matcher.ElementMatchers.nameStartsWith;
 
 /**
- * javaagent代理入口
+ * javaagent代理入口.
  * <p>
  * author   gy4j
  * Email    76429197@qq.com
@@ -28,7 +28,7 @@ public class SnifferAgent {
     private static final ILogger logger = LoggerFactory.getLogger(TestByteBuddyPrintInterceptor.class);
 
     /**
-     * 在方法在main方法之前执行，和main方法同Jvm、ClassLoader、Security policy和Context
+     * 在方法在main方法之前执行，和main方法同Jvm、ClassLoader、Security policy和Context.
      *
      * @param agentOps javaagent入参
      * @param inst     对class进行字节码加强的代理实例
@@ -46,7 +46,7 @@ public class SnifferAgent {
     }
 
     /**
-     * 忽略规则构建
+     * 忽略规则构建.
      *
      * @return
      */
@@ -57,7 +57,7 @@ public class SnifferAgent {
     }
 
     /**
-     * 转换规则构建
+     * 转换规则构建.
      */
     static class AgentTransformer implements AgentBuilder.Transformer {
         @Override
@@ -69,7 +69,7 @@ public class SnifferAgent {
     }
 
     /**
-     * 侦听器
+     * 侦听器.
      */
     static class AgentListener implements AgentBuilder.Listener {
 

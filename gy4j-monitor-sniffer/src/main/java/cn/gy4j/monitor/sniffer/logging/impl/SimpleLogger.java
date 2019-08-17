@@ -29,9 +29,8 @@ public class SimpleLogger implements ILogger {
     }
 
     private String format(LoggerLevel loggerLevel, String message, Throwable t) {
-        return StringUtil.join(' ', loggerLevel.name(), DateUtil.getFullFormat(new Date())
-                , Thread.currentThread().getName(), targetClass.getSimpleName()
-                , ": ", message, t == null ? "" : ExceptionUtil.format(t));
+        return StringUtil.join(' ', loggerLevel.name(), DateUtil.getFullFormat(new Date()),
+                Thread.currentThread().getName(), targetClass.getSimpleName(), ": ", message, t == null ? "" : ExceptionUtil.format(t));
     }
 
     private String replaceParam(String format, Object... args) {
@@ -43,7 +42,7 @@ public class SimpleLogger implements ILogger {
             if (paramIndex >= args.length) {
                 break;
             }
-            /**
+            /*
              * @Fix Matcher.quoteReplacement:the Illegal group reference issue.
              * exp:"{}".replaceFirst("\\{\\}", "x$")
              */

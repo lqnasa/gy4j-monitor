@@ -46,6 +46,11 @@ public class FileWriter implements IWriter, EventHandler<FileWriter.LoggerEvent>
         disruptor.start();
     }
 
+    /**
+     * 获取单例对象.
+     *
+     * @return
+     */
     public static IWriter getInstance() {
         if (INSTANCE == null) {
             synchronized (CREATE_LOCK) {
@@ -57,6 +62,11 @@ public class FileWriter implements IWriter, EventHandler<FileWriter.LoggerEvent>
         return INSTANCE;
     }
 
+    /**
+     * 日志输出.
+     *
+     * @param message  日志内容
+     */
     @Override
     public void write(String message) {
         long next = buffer.next();
@@ -65,18 +75,6 @@ public class FileWriter implements IWriter, EventHandler<FileWriter.LoggerEvent>
             logEvent.setMessage(message);
         } finally {
             buffer.publish(next);
-        }
-    }
-
-    @Override
-    public void onEvent(LoggerEvent logEvent, long sequence, boolean endOfBatch) throws Exception {
-        if (hasWriterStream()) {
-            try {
-                lineNum++;
-                write(logEvent.getMessage() + Constants.LINE_SEPARATOR, endOfBatch);
-            } finally {
-                logEvent.setMessage(null);
-            }
         }
     }
 
@@ -91,6 +89,18 @@ public class FileWriter implements IWriter, EventHandler<FileWriter.LoggerEvent>
             ex.printStackTrace();
         } finally {
             checkFile();
+        }
+    }
+
+    @Override
+    public void onEvent(LoggerEvent logEvent, long sequence, boolean endOfBatch) throws Exception {
+        if (hasWriterStream()) {
+            try {
+                lineNum++;
+                write(logEvent.getMessage() + Constants.LINE_SEPARATOR, endOfBatch);
+            } finally {
+                logEvent.setMessage(null);
+            }
         }
     }
 

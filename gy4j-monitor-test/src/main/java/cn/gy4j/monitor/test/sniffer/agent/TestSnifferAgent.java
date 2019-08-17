@@ -7,10 +7,10 @@ package cn.gy4j.monitor.test.sniffer.agent;
  */
 public class TestSnifferAgent {
     /**
-     * 测试SnifferAgent的main方法
-     * jvm配置:-javaagent:G:\gy4j\git_gy4j\gy4j-monitor\gy4j-monitor-sniffer\target\sniffer-agent.jar
+     * 测试SnifferAgent的main方法.
+     * jvm配置:-javaagent:G:\gy4j\git_gy4j\gy4j-monitor\gy4j-monitor-sniffer\target\sniffer-agent.jar.
      *
-     * @param args
+     * @param args  main方法入参
      */
     public static void main(String[] args) {
         System.out.println("hello javaagent!this is main!");

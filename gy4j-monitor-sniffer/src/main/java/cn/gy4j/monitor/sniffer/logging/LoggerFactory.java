@@ -12,9 +12,9 @@ import cn.gy4j.monitor.sniffer.logging.impl.SimpleLogger;
  */
 public class LoggerFactory {
     /**
-     * 获取日志对象
+     * 获取日志对象.
      *
-     * @param clazz
+     * @param clazz 日志来源类
      * @return
      */
     public static ILogger getLogger(Class<?> clazz) {
