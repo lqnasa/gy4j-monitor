@@ -17,25 +17,28 @@ public class TestByteBuddyPrintInterceptor {
                             @SuperCall Callable<?> zuper,
                             @Origin Method method) throws Throwable {
         try {
-            System.out.println("before method:" + method.getName());
+            // 原方法执行前
+            System.out.println(" before method:" + method.getName());
         } catch (Throwable t) {
             t.printStackTrace();
             System.out.println("class[" + obj.getClass() + "] before method[" + method.getName() + "] intercept failure");
         }
 
         Object ret = null;
-
         try {
+            // 原方法调用
             ret = zuper.call();
         } catch (Throwable t) {
             try {
-                System.out.println("error method:" + method.getName());
+                // 原方法调用异常
+                System.out.println("exception method:" + method.getName());
             } catch (Throwable t2) {
                 System.out.println("class[" + obj.getClass() + "] handle method[" + method.getName() + "] exception failure");
             }
             throw t;
         } finally {
             try {
+                // 原方法执行后
                 System.out.println("after method:" + method.getName());
             } catch (Throwable t) {
                 System.out.println("class[" + obj.getClass() + "] after method[" + method.getName() + "] intercept failure");
