@@ -30,27 +30,31 @@ public class TestByteBuddyPrintInterceptor {
                             @SuperCall Callable<?> zuper,
                             @Origin Method method) throws Throwable {
         try {
-            logger.info("before method:" + method.getName());
+            // 原方法执行前
+            logger.info(" before method:" + method.getName());
         } catch (Throwable t) {
-            logger.error(t, "class[" + obj.getClass() + "] before method[" + method.getName() + "] intercept failure");
+            t.printStackTrace();
+            logger.info("class[" + obj.getClass() + "] before method[" + method.getName() + "] intercept failure");
         }
 
         Object ret = null;
-
         try {
+            // 原方法调用
             ret = zuper.call();
         } catch (Throwable t) {
             try {
-                logger.info("error method:" + method.getName());
+                // 原方法调用异常
+                logger.info("exception method:" + method.getName());
             } catch (Throwable t2) {
-                logger.error(t2, "class[" + obj.getClass() + "] handle method[" + method.getName() + "] exception failure");
+                logger.info("class[" + obj.getClass() + "] handle method[" + method.getName() + "] exception failure");
             }
             throw t;
         } finally {
             try {
+                // 原方法执行后
                 logger.info("after method:" + method.getName());
             } catch (Throwable t) {
-                logger.error(t, "class[" + obj.getClass() + "] after method[" + method.getName() + "] intercept failure");
+                logger.info("class[" + obj.getClass() + "] after method[" + method.getName() + "] intercept failure");
             }
         }
         return ret;

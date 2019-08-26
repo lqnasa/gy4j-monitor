@@ -3,6 +3,8 @@ package cn.gy4j.monitor.sniffer.logging.impl;
 import cn.gy4j.monitor.sniffer.logging.api.ILogger;
 
 /**
+ * 无输出日志实现.
+ * <p>
  * author   gy4j
  * Email    76429197@qq.com
  * Date     2019-08-17

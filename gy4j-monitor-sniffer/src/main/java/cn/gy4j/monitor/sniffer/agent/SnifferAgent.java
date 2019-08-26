@@ -34,14 +34,19 @@ public class SnifferAgent {
      * @param inst     对class进行字节码加强的代理实例
      */
     public static void premain(String agentOps, Instrumentation inst) {
-        System.out.println("hello javaagent!this is premain!");
+        logger.info("hello javaagent!this is premain!");
         // 基于ByteBuddy建立agent规则
         final ByteBuddy byteBuddy = new ByteBuddy().with(TypeValidation.ENABLED);
         new AgentBuilder.Default(byteBuddy)
-                .ignore(initIgnoreElementMatcher()) // 忽略规则
-                .type(ElementMatchers.<TypeDescription>named("cn.gy4j.monitor.test.sniffer.agent.TestByteBuddy")) // 匹配规则
-                .transform(new AgentTransformer()) // 转换规则
-                .with(new AgentListener()) // 侦听器
+                // 忽略不需要拦截的类
+                .ignore(initIgnoreElementMatcher())
+                // 对类名为cn.gy4j.monitor.test.sniffer.agent.TestByteBuddy的类进行拦截
+                .type(ElementMatchers.<TypeDescription>named("cn.gy4j.monitor.test.sniffer.agent.TestByteBuddy"))
+                // 对拦截类进行加强
+                .transform(new AgentTransformer())
+                // 类加强的侦听器：类加强过程中的事件侦听
+                .with(new AgentListener())
+                // 基于inst
                 .installOn(inst);
     }
 
@@ -62,7 +67,7 @@ public class SnifferAgent {
     static class AgentTransformer implements AgentBuilder.Transformer {
         @Override
         public DynamicType.Builder<?> transform(DynamicType.Builder<?> builder, TypeDescription typeDescription, ClassLoader classLoader, JavaModule module) {
-            // 根据插件聚合转换规则
+            // 对拦截类的print方法进行拦截加强，加强的规则为TestByteBuddyPrintInterceptor
             return builder.method(ElementMatchers.<MethodDescription>named("print"))
                     .intercept(MethodDelegation.withDefaultConfiguration().to(new TestByteBuddyPrintInterceptor()));
         }
@@ -72,7 +77,6 @@ public class SnifferAgent {
      * 侦听器.
      */
     static class AgentListener implements AgentBuilder.Listener {
-
         @Override
         public void onDiscovery(String typeName, ClassLoader classLoader, JavaModule module, boolean loaded) {
         }
