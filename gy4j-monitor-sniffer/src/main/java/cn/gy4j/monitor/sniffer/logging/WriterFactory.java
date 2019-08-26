@@ -6,13 +6,15 @@ import cn.gy4j.monitor.sniffer.logging.impl.FileWriter;
 import cn.gy4j.monitor.sniffer.logging.impl.SystemOutWriter;
 
 /**
+ * 日志Writer工厂.
+ * <p>
  * author   gy4j
  * Email    76429197@qq.com
  * Date     2019-08-17
  */
 public class WriterFactory {
     /**
-     * 获取日志输出对象
+     * 获取日志输出对象.
      *
      * @return 日志输出对象
      */

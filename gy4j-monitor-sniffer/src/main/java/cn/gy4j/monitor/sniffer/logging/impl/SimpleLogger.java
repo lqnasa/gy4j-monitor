@@ -12,6 +12,8 @@ import java.util.Date;
 import java.util.regex.Matcher;
 
 /**
+ * 常规日志实现.
+ * <p>
  * author   gy4j
  * Email    76429197@qq.com
  * Date     2019-08-17
@@ -20,39 +22,14 @@ public class SimpleLogger implements ILogger {
 
     private Class<?> targetClass;
 
+    /**
+     * 构造函数.
+     *
+     * @param targetClass 日志来源类
+     */
     public SimpleLogger(Class<?> targetClass) {
         this.targetClass = targetClass;
     }
-
-    public void logger(LoggerLevel loggerLevel, String message, Throwable t) {
-        WriterFactory.getWriter().write(format(loggerLevel, message, t));
-    }
-
-    private String format(LoggerLevel loggerLevel, String message, Throwable t) {
-        return StringUtil.join(' ', loggerLevel.name(), DateUtil.getFullFormat(new Date())
-                , Thread.currentThread().getName(), targetClass.getSimpleName()
-                , ": ", message, t == null ? "" : ExceptionUtil.format(t));
-    }
-
-    private String replaceParam(String format, Object... args) {
-        int startSize = 0;
-        int paramIndex = 0;
-        int index;
-        String tmpMessage = format;
-        while ((index = format.indexOf("{}", startSize)) != -1) {
-            if (paramIndex >= args.length) {
-                break;
-            }
-            /**
-             * @Fix Matcher.quoteReplacement:the Illegal group reference issue.
-             * exp:"{}".replaceFirst("\\{\\}", "x$")
-             */
-            tmpMessage = tmpMessage.replaceFirst("\\{\\}", Matcher.quoteReplacement(String.valueOf(args[paramIndex++])));
-            startSize = index + 2;
-        }
-        return tmpMessage;
-    }
-
 
     @Override
     public void debug(String message) {
@@ -156,5 +133,57 @@ public class SimpleLogger implements ILogger {
     @Override
     public boolean isErrorEnable() {
         return LoggerLevel.ERROR.compareTo(AgentConfig.Logging.LEVEL) >= 0;
+    }
+
+
+    /**
+     * 日志输出公共方法.
+     *
+     * @param loggerLevel 日志级别
+     * @param message     日志消息
+     * @param throwable   异常
+     */
+    private void logger(LoggerLevel loggerLevel, String message, Throwable throwable) {
+        WriterFactory.getWriter().write(format(loggerLevel, message, throwable));
+    }
+
+    /**
+     * 日志消息格式化.
+     *
+     * @param loggerLevel 日志级别
+     * @param message     日志消息
+     * @param throwable   异常
+     * @return
+     */
+    private String format(LoggerLevel loggerLevel, String message, Throwable throwable) {
+        return StringUtil.join(' ', loggerLevel.name(), DateUtil.getFullFormat(new Date())
+                , Thread.currentThread().getName(), targetClass.getSimpleName()
+                , ": ", message, throwable == null ? "" : ExceptionUtil.format(throwable));
+    }
+
+    /**
+     * 日志格式化转换:按{}的顺序用args列表替换.
+     *
+     * @param format 日志格式字符串
+     * @param args   参数列表
+     * @return
+     */
+    private String replaceParam(String format, Object... args) {
+        int startSize = 0;
+        int paramIndex = 0;
+        int index;
+        String tmpMessage = format;
+        while ((index = format.indexOf("{}", startSize)) != -1) {
+            if (paramIndex >= args.length) {
+                break;
+            }
+            /**
+             * @Fix Matcher.quoteReplacement:the Illegal group reference issue.
+             * exp:"{}".replaceFirst("\\{\\}", "x$")
+             */
+            tmpMessage = tmpMessage.replaceFirst("\\{\\}", Matcher.quoteReplacement(String.valueOf(args[paramIndex++])));
+            startSize = index + 2;
+        }
+        return tmpMessage;
     }
 }

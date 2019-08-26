@@ -6,15 +6,17 @@ import cn.gy4j.monitor.sniffer.logging.impl.NoopLogger;
 import cn.gy4j.monitor.sniffer.logging.impl.SimpleLogger;
 
 /**
+ * 日志对象工厂.
+ * <p>
  * author   gy4j
  * Email    76429197@qq.com
  * Date     2019-08-17
  */
 public class LoggerFactory {
     /**
-     * 获取日志对象
+     * 获取日志对象.
      *
-     * @param clazz
+     * @param clazz 来源类
      * @return
      */
     public static ILogger getLogger(Class<?> clazz) {
