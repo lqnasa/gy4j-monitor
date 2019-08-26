@@ -34,7 +34,7 @@ public class SnifferAgent {
      * @param inst     对class进行字节码加强的代理实例
      */
     public static void premain(String agentOps, Instrumentation inst) {
-        System.out.println("hello javaagent!this is premain!");
+        logger.info("hello javaagent!this is premain!");
         // 基于ByteBuddy建立agent规则
         final ByteBuddy byteBuddy = new ByteBuddy().with(TypeValidation.ENABLED);
         new AgentBuilder.Default(byteBuddy)
