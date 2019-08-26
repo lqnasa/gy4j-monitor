@@ -28,7 +28,7 @@ public class SnifferAgent {
      *
      * @param agentOps javaagent入参
      * @param inst     对class进行字节码加强的代理实例
-     */1
+     */
     public static void premain(String agentOps, Instrumentation inst) {
         System.out.println("hello javaagent!this is premain!");
         // 基于ByteBuddy建立agent规则
