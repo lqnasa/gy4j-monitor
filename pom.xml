@@ -35,6 +35,7 @@
             </plugin>
             <!-- 代码规范检查 -->
             <!-- mvn install -pl gy4j-monitor-checkstyle -am & mvn checkstyle:checkstyle -->
+            <!-- mvn install -pl gy4j-monitor-checkstyle -am & mvn checkstyle:checkstyle-aggregate -->
             <!-- mvn install -pl gy4j-monitor-checkstyle -am & mvn jxr:jxr -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

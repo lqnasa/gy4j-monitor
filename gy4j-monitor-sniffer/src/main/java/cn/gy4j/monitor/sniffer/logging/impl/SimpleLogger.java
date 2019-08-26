@@ -156,9 +156,9 @@ public class SimpleLogger implements ILogger {
      * @return
      */
     private String format(LoggerLevel loggerLevel, String message, Throwable throwable) {
-        return StringUtil.join(' ', loggerLevel.name(), DateUtil.getFullFormat(new Date())
-                , Thread.currentThread().getName(), targetClass.getSimpleName()
-                , ": ", message, throwable == null ? "" : ExceptionUtil.format(throwable));
+        return StringUtil.join(' ', loggerLevel.name(), DateUtil.getFullFormat(new Date()),
+                Thread.currentThread().getName(), targetClass.getSimpleName(), ": ",
+                message, throwable == null ? "" : ExceptionUtil.format(throwable));
     }
 
     /**
@@ -177,7 +177,7 @@ public class SimpleLogger implements ILogger {
             if (paramIndex >= args.length) {
                 break;
             }
-            /**
+            /*
              * @Fix Matcher.quoteReplacement:the Illegal group reference issue.
              * exp:"{}".replaceFirst("\\{\\}", "x$")
              */

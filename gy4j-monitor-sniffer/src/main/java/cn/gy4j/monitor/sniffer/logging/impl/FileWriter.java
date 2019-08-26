@@ -111,25 +111,6 @@ public class FileWriter implements IWriter, EventHandler<FileWriter.LoggerEvent>
     }
 
     /**
-     * 日志事件处理.
-     *
-     * @param logEvent   日志事件对象
-     * @param sequence   序号
-     * @param endOfBatch 是否批量结束
-     */
-    @Override
-    public void onEvent(LoggerEvent logEvent, long sequence, boolean endOfBatch) {
-        if (hasWriterStream()) {
-            try {
-                lineNum++;
-                write(logEvent.getMessage() + Constants.LINE_SEPARATOR, endOfBatch);
-            } finally {
-                logEvent.setMessage(null);
-            }
-        }
-    }
-
-    /**
      * 通过文件流输出日志.
      *
      * @param message    日志消息
@@ -149,8 +130,15 @@ public class FileWriter implements IWriter, EventHandler<FileWriter.LoggerEvent>
         }
     }
 
+    /**
+     * 日志事件处理.
+     *
+     * @param logEvent   日志事件对象
+     * @param sequence   序号
+     * @param endOfBatch 是否批量结束
+     */
     @Override
-    public void onEvent(LoggerEvent logEvent, long sequence, boolean endOfBatch) throws Exception {
+    public void onEvent(LoggerEvent logEvent, long sequence, boolean endOfBatch) {
         if (hasWriterStream()) {
             try {
                 lineNum++;
