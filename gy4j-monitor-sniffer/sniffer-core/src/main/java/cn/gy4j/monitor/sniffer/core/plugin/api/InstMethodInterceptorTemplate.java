@@ -3,7 +3,6 @@ package cn.gy4j.monitor.sniffer.core.plugin.api;
 import cn.gy4j.monitor.sniffer.core.logging.LoggerFactory;
 import cn.gy4j.monitor.sniffer.core.logging.api.ILogger;
 import cn.gy4j.monitor.sniffer.core.plugin.loader.InterceptorInstanceLoader;
-import net.bytebuddy.description.type.TypeDescription;
 import net.bytebuddy.implementation.bind.annotation.*;
 
 import java.lang.reflect.Method;
