@@ -17,8 +17,6 @@
         <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
         <compiler.version>1.8</compiler.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <bytebuddy.version>1.8.5</bytebuddy.version>
-        <disruptor.version>3.3.6</disruptor.version>
     </properties>
 
     <build>
@@ -34,9 +32,9 @@
                 </configuration>
             </plugin>
             <!-- 代码规范检查 -->
-            <!-- mvn install -pl gy4j-monitor-checkstyle -am & mvn checkstyle:checkstyle -->
-            <!-- mvn install -pl gy4j-monitor-checkstyle -am & mvn checkstyle:checkstyle-aggregate -->
-            <!-- mvn install -pl gy4j-monitor-checkstyle -am & mvn jxr:jxr -->
+            <!-- mvn clean install -pl gy4j-monitor-checkstyle -am & mvn checkstyle:checkstyle -->
+            <!-- mvn clean & mvn install -pl gy4j-monitor-checkstyle -am & mvn checkstyle:checkstyle-aggregate -->
+            <!-- mvn clean install -pl gy4j-monitor-checkstyle -am & mvn jxr:jxr -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
