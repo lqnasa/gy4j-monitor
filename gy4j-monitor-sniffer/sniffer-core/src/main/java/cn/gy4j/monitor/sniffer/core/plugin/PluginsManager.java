@@ -1,21 +1,32 @@
 package cn.gy4j.monitor.sniffer.core.plugin;
 
+import cn.gy4j.monitor.sniffer.core.loader.AgentClassLoader;
+import cn.gy4j.monitor.sniffer.core.logging.LoggerFactory;
+import cn.gy4j.monitor.sniffer.core.logging.api.ILogger;
 import cn.gy4j.monitor.sniffer.core.plugin.api.Plugin;
-import cn.gy4j.monitor.sniffer.plugins.test.bytebuddy.TestByteBuddyPlugin;
+import cn.gy4j.monitor.sniffer.core.util.StringUtil;
 import net.bytebuddy.description.type.TypeDescription;
 import net.bytebuddy.dynamic.DynamicType;
 import net.bytebuddy.matcher.ElementMatcher;
 import net.bytebuddy.matcher.ElementMatchers;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.util.Enumeration;
 import java.util.LinkedList;
 import java.util.List;
 
 /**
  * author   gy4j
  * Email    76429197@qq.com
- * Date     2019-08-27
+ * Date     2019-08-17
  */
 public class PluginsManager {
+    private static final ILogger logger = LoggerFactory.getLogger(PluginsManager.class);
+
     /**
      * 插件列表.
      */
@@ -25,7 +36,21 @@ public class PluginsManager {
      * 插件初始化.
      */
     public static void init() {
-        plugins.add(new TestByteBuddyPlugin());
+        AgentClassLoader.initDefaultLoader();
+        try {
+            Enumeration<URL> enumeration = AgentClassLoader.getDefault().getResources("monitor-plugin.def");
+            while (enumeration.hasMoreElements()) {
+                URL url = enumeration.nextElement();
+                try {
+                    plugins.addAll(loadPlugins(url));
+                } catch (Throwable t) {
+                    logger.error(t, "加载插件异常：" + url);
+                }
+            }
+            logger.info("加载插件：" + plugins.size() + "个");
+        } catch (IOException e) {
+            logger.error(e, "加载插件列表异常：" + e.getMessage());
+        }
     }
 
     /**
@@ -72,5 +97,35 @@ public class PluginsManager {
             }
         }
         return matchedPlugins;
+    }
+
+    /**
+     * 加载插件.
+     *
+     * @param url 插件url
+     * @return
+     */
+    private static List<Plugin> loadPlugins(URL url) throws IOException {
+        List<Plugin> plugins = new LinkedList<>();
+        InputStream inputStream = url.openStream();
+        try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+            String pluginDefine = null;
+            while (((pluginDefine = reader.readLine()) != null)) {
+                try {
+                    if (StringUtil.isEmpty(pluginDefine) || pluginDefine.startsWith("#")) {
+                        continue;
+                    }
+                    PluginDefine plugin = PluginDefine.build(pluginDefine);
+                    Class<?> pluginClazz = Class.forName(plugin.getPluginClassName(), true, AgentClassLoader.getDefault());
+                    plugins.add((Plugin) pluginClazz.newInstance());
+                } catch (Exception ex) {
+                    logger.error(ex, "Failed to format plugin(" + pluginDefine + ") define.");
+                }
+            }
+        } finally {
+            inputStream.close();
+        }
+        return plugins;
     }
 }

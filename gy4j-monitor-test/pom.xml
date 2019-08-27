@@ -10,6 +10,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>gy4j-monitor-test</artifactId>
-
-
+    <packaging>pom</packaging>
+    <modules>
+        <module>test-plugins-test-bytebuddy</module>
+    </modules>
 </project>
