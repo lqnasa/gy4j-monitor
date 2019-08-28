@@ -3,6 +3,7 @@ package cn.gy4j.monitor.sniffer.core.plugin.api;
 import cn.gy4j.monitor.sniffer.core.logging.LoggerFactory;
 import cn.gy4j.monitor.sniffer.core.logging.api.ILogger;
 import cn.gy4j.monitor.sniffer.core.plugin.loader.InterceptorInstanceLoader;
+import cn.gy4j.monitor.sniffer.core.trace.Span;
 import net.bytebuddy.implementation.bind.annotation.*;
 
 import java.lang.reflect.Method;
@@ -54,8 +55,9 @@ public class InstMethodInterceptorTemplate {
                             @AllArguments Object[] allArguments,
                             @SuperCall Callable<?> zuper,
                             @Origin Method method) throws Throwable {
+        Span span = null;
         try {
-            interceptor.beforeMethod(method, allArguments);
+            span = interceptor.beforeMethod(method, allArguments);
         } catch (Throwable t) {
             logger.error(t, "class[" + obj.getClass() + "] before method[" + method.getName() + "] intercept failure");
         }
@@ -66,14 +68,14 @@ public class InstMethodInterceptorTemplate {
             ret = zuper.call();
         } catch (Throwable t) {
             try {
-                interceptor.handleMethodException(method, allArguments, t);
+                interceptor.handleMethodException(method, allArguments, t, span);
             } catch (Throwable t2) {
                 logger.error(t2, "class[" + obj.getClass() + "] handle method[" + method.getName() + "] exception failure");
             }
             throw t;
         } finally {
             try {
-                ret = interceptor.afterMethod(method, allArguments, ret);
+                ret = interceptor.afterMethod(method, allArguments, ret, span);
             } catch (Throwable t) {
                 logger.error(t, "class[" + obj.getClass() + "] after method[" + method.getName() + "] intercept failure");
             }

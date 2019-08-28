@@ -1,5 +1,7 @@
 package cn.gy4j.monitor.sniffer.core.plugin.api;
 
+import cn.gy4j.monitor.sniffer.core.trace.Span;
+
 import java.lang.reflect.Method;
 
 /**
@@ -14,7 +16,7 @@ public interface InstMethodInterceptor {
      * @param method       方法对象
      * @param allArguments 参数
      */
-    void beforeMethod(Method method, Object[] allArguments) throws Throwable;
+    Span beforeMethod(Method method, Object[] allArguments) throws Throwable;
 
     /**
      * 方法执行后.
@@ -24,7 +26,7 @@ public interface InstMethodInterceptor {
      * @param ret          返回对象
      * @return
      */
-    Object afterMethod(Method method, Object[] allArguments, Object ret) throws Throwable;
+    Object afterMethod(Method method, Object[] allArguments, Object ret, Span span) throws Throwable;
 
     /**
      * 方法执行异常.
@@ -33,5 +35,5 @@ public interface InstMethodInterceptor {
      * @param allArguments 参数
      * @param throwable    异常对象
      */
-    void handleMethodException(Method method, Object[] allArguments, Throwable throwable);
+    void handleMethodException(Method method, Object[] allArguments, Throwable throwable, Span span);
 }

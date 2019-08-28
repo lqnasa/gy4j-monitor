@@ -10,6 +10,10 @@ public class TestByteBuddy {
         System.out.println("this is the method:print");
     }
 
+    public void print(String name) {
+        System.out.println("this is the method:print");
+    }
+
     public void printWithoutInterceptor() {
         System.out.println("this is the method:printWithoutInterceptor");
     }
