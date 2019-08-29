@@ -26,10 +26,6 @@ public class Tracer {
      * Tracer的关闭标识.
      */
     private boolean isClosed;
-    /**
-     * Tracer的追踪标识.
-     */
-    private boolean isIgnore;
 
     public Tracer() {
         this(new SpanScopeManager());
@@ -37,11 +33,6 @@ public class Tracer {
 
     public Tracer(SpanScopeManager scopeManager) {
         this.scopeManager = scopeManager;
-        this.isIgnore = false;
-    }
-
-    public SpanScopeManager scopeManager() {
-        return this.scopeManager;
     }
 
     public Span activeSpan() {
@@ -80,23 +71,5 @@ public class Tracer {
             return;
         }
         this.finishedSpans.add(span);
-    }
-
-    /**
-     * 获取isIgnore.
-     *
-     * @return
-     */
-    public boolean isIgnore() {
-        return isIgnore;
-    }
-
-    /**
-     * 设置isIgnore.
-     *
-     * @return
-     */
-    public void setIgnore(boolean ignore) {
-        isIgnore = ignore;
     }
 }

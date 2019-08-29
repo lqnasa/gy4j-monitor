@@ -11,8 +11,8 @@ public class TestByteBuddy {
         new TestByteBuddy().print("hello trace!");
     }
 
-    public void print(String name) {
-        System.out.println("this is the method:print");
+    public void print(String msg) {
+        System.out.println(msg);
     }
 
 }

@@ -1,7 +1,6 @@
 package cn.gy4j.monitor.sniffer.core.trace;
 
 import cn.gy4j.monitor.sniffer.core.util.DateUtil;
-import cn.gy4j.monitor.sniffer.core.util.SpanUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,10 +21,6 @@ public class SpanBuilder {
      * Span的名称.
      */
     private String operationName;
-    /**
-     * 是否忽略激活标识.
-     */
-    private boolean ignore = false;
     /**
      * Span关系列表.
      */
@@ -88,16 +83,6 @@ public class SpanBuilder {
     }
 
     /**
-     * 设置ignore为true，span的屏蔽标识.
-     *
-     * @return
-     */
-    public SpanBuilder ignore() {
-        ignore = true;
-        return this;
-    }
-
-    /**
      * 设置String标签.
      *
      * @param key   key值
@@ -154,11 +139,8 @@ public class SpanBuilder {
             this.startMicros = DateUtil.getNowMillis();
         }
         SpanContext activeSpanContext = activeSpanContext();
-        if (references.isEmpty() && !ignore && activeSpanContext != null) {
+        if (references.isEmpty() && activeSpanContext != null) {
             references.add(new SpanReference(activeSpanContext, SpanReference.REFERENCES_CHILD_OF));
-        }
-        if (SpanUtil.isIgnoreOperationName(operationName)) {
-            tracer.setIgnore(true);
         }
         return new Span(tracer, operationName, startMicros, initialTags, references);
     }
