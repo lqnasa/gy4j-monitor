@@ -1,5 +1,6 @@
 package cn.gy4j.monitor.sniffer.agent;
 
+import cn.gy4j.monitor.sniffer.core.config.AgentConfigInitializer;
 import cn.gy4j.monitor.sniffer.core.logging.LoggerFactory;
 import cn.gy4j.monitor.sniffer.core.logging.api.ILogger;
 import cn.gy4j.monitor.sniffer.core.plugin.PluginsManager;
@@ -33,8 +34,9 @@ public class SnifferAgent {
      * @param inst     对class进行字节码加强的代理实例
      */
     public static void premain(String agentOps, Instrumentation inst) {
-        System.out.println("hello javaagent!this is premain!");
+        logger.info("加载：gy4j-monitor-sniffer-agent");
 
+        AgentConfigInitializer.init();
         // 插件初始化
         PluginsManager.init();
 

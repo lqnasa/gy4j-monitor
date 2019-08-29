@@ -17,4 +17,11 @@ public class AgentConfig {
         public static String PATH = "";
         public static String FILE_NAME = "sniffer-agent.log";
     }
+
+    public static class Agent {
+        public static String SERVER_NAME = "server-demo";
+        public static String SERVER_INSTANCE_ID;
+        public static String HOSTNAME;
+        public static String IP;
+    }
 }
