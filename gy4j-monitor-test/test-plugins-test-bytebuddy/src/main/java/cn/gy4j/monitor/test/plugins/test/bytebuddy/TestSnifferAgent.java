@@ -16,6 +16,5 @@ public class TestSnifferAgent {
         System.out.println("hello javaagent!this is main!");
         TestByteBuddy testByteBuddy = new TestByteBuddy();
         testByteBuddy.print();
-        testByteBuddy.printWithoutInterceptor();
     }
 }

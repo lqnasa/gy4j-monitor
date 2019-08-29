@@ -6,15 +6,13 @@ package cn.gy4j.monitor.test.plugins.test.bytebuddy;
  * Date     2019-08-16
  */
 public class TestByteBuddy {
+
     public void print() {
-        System.out.println("this is the method:print");
+        new TestByteBuddy().print("hello trace!");
     }
 
     public void print(String name) {
         System.out.println("this is the method:print");
     }
 
-    public void printWithoutInterceptor() {
-        System.out.println("this is the method:printWithoutInterceptor");
-    }
 }

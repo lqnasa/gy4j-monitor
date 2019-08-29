@@ -257,6 +257,7 @@ public class Span {
                 "context=" + context +
                 ", parentId='" + parentId + '\'' +
                 ", operationName='" + operationName + '\'' +
+                ", tags='" + tags + '\'' +
                 '}';
     }
 }
