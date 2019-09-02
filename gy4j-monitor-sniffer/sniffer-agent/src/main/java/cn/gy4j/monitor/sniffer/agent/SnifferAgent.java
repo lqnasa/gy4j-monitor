@@ -4,6 +4,7 @@ import cn.gy4j.monitor.sniffer.core.config.AgentConfigInitializer;
 import cn.gy4j.monitor.sniffer.core.logging.LoggerFactory;
 import cn.gy4j.monitor.sniffer.core.logging.api.ILogger;
 import cn.gy4j.monitor.sniffer.core.plugin.PluginsManager;
+import cn.gy4j.monitor.sniffer.core.remote.RemoteManager;
 import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.agent.builder.AgentBuilder;
 import net.bytebuddy.description.type.TypeDescription;
@@ -36,9 +37,12 @@ public class SnifferAgent {
     public static void premain(String agentOps, Instrumentation inst) {
         logger.info("加载：gy4j-monitor-sniffer-agent");
 
+        // 初始化Agent的配置
         AgentConfigInitializer.init();
         // 插件初始化
         PluginsManager.init();
+        // 初始化采集
+        RemoteManager.init();
 
         // 基于ByteBuddy建立agent规则
         final ByteBuddy byteBuddy = new ByteBuddy().with(TypeValidation.ENABLED);

@@ -2,7 +2,9 @@ package cn.gy4j.monitor.sniffer.core.trace;
 
 import cn.gy4j.monitor.sniffer.core.logging.LoggerFactory;
 import cn.gy4j.monitor.sniffer.core.logging.api.ILogger;
+import cn.gy4j.monitor.sniffer.core.transport.TransportSpan;
 import cn.gy4j.monitor.sniffer.core.util.DateUtil;
+import cn.gy4j.monitor.sniffer.core.util.GsonUtil;
 import cn.gy4j.monitor.sniffer.core.util.IdUtil;
 import cn.gy4j.monitor.sniffer.core.util.StringUtil;
 
@@ -251,6 +253,23 @@ public class Span {
         return this.operationName;
     }
 
+    /**
+     * 转换为TransportSpan对象.
+     *
+     * @return
+     */
+    public TransportSpan getTransportSpan() {
+        TransportSpan transportSpan = new TransportSpan();
+        transportSpan.setSpanId(this.context.getSpanId());
+        transportSpan.setParentId(this.parentId);
+        transportSpan.setTraceId(this.context.getTraceId());
+        transportSpan.setOperationName(this.operationName);
+        transportSpan.setStartTime(this.startMicros);
+        transportSpan.setFinishTime(this.finishMicros);
+        transportSpan.setTags(GsonUtil.objectToJson(this.tags));
+        transportSpan.setReferenceType(SpanReference.REFERENCES_CHILD_OF);
+        return transportSpan;
+    }
     @Override
     public String toString() {
         return "Span{" +

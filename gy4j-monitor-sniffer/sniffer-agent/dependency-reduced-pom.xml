@@ -34,6 +34,9 @@
                 <excludes>
                   <exclude>com.lmax:*</exclude>
                   <exclude>com.google.*:*</exclude>
+                  <exclude>org.apache.httpcomponents:*</exclude>
+                  <exclude>commons-logging:*</exclude>
+                  <exclude>commons-codec:*</exclude>
                 </excludes>
               </artifactSet>
             </configuration>

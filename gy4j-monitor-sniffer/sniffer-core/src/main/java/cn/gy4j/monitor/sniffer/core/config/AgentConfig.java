@@ -24,4 +24,8 @@ public class AgentConfig {
         public static String HOSTNAME;
         public static String IP;
     }
+
+    public static class Remote {
+        public static String COLLECTOR_URL = "";
+    }
 }

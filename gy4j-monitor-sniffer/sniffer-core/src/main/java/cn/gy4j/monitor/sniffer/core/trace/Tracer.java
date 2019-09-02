@@ -2,6 +2,9 @@ package cn.gy4j.monitor.sniffer.core.trace;
 
 import cn.gy4j.monitor.sniffer.core.logging.LoggerFactory;
 import cn.gy4j.monitor.sniffer.core.logging.api.ILogger;
+import cn.gy4j.monitor.sniffer.core.transport.TransportManager;
+import cn.gy4j.monitor.sniffer.core.transport.TransportSpan;
+import cn.gy4j.monitor.sniffer.core.transport.TransportTracer;
 import cn.gy4j.monitor.sniffer.core.util.GsonUtil;
 
 import java.util.ArrayList;
@@ -56,6 +59,7 @@ public class Tracer {
             if (logger.isDebugEnable()) {
                 logger.debug("Tracer.close:" + finishedSpans);
             }
+            TransportManager.getInstance().transport(this);
             TracerManager.clear();
             this.isClosed = true;
             this.finishedSpans.clear();
@@ -96,5 +100,22 @@ public class Tracer {
     public SpanContext parseCarrierContext(String carrierContext) {
         SpanContext.Carrier carrier = GsonUtil.jsonToObject(carrierContext, SpanContext.Carrier.class);
         return new SpanContext(carrier);
+    }
+
+    /**
+     * 转换为TransportTracer对象.
+     *
+     * @return
+     */
+    public TransportTracer getTransportTracer() {
+        TransportTracer transportTracer = new TransportTracer();
+        List<Span> monitorSpans = this.finishedSpans;
+        List<TransportSpan> transportSpans = transportTracer.getSpans();
+        if (monitorSpans != null && monitorSpans.size() > 0) {
+            for (Span span : monitorSpans) {
+                transportSpans.add(span.getTransportSpan());
+            }
+        }
+        return transportTracer;
     }
 }
