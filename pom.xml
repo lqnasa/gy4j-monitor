@@ -12,6 +12,7 @@
         <module>gy4j-monitor-checkstyle</module>
         <module>gy4j-monitor-sniffer</module>
         <module>gy4j-monitor-test</module>
+        <module>gy4j-monitor-collector</module>
     </modules>
     <properties>
         <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
