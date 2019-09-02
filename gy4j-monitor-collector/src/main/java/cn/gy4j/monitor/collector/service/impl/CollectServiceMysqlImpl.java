@@ -4,6 +4,7 @@ import cn.gy4j.monitor.collector.entity.MonitorTracer;
 import cn.gy4j.monitor.collector.service.AbstractCollectService;
 import cn.gy4j.monitor.collector.util.GsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
  * Date     2019-08-18
  */
 @Service
+@ConditionalOnProperty(name = "store.type", havingValue = "mysql")
 public class CollectServiceMysqlImpl extends AbstractCollectService {
     @Autowired
     private JdbcTemplate jdbcTemplate;

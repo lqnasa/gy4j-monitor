@@ -7,6 +7,7 @@ import com.google.common.io.Resources;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,6 +27,7 @@ import java.io.InputStreamReader;
  */
 @Slf4j
 @Configuration
+@ConditionalOnProperty(name = "store.type", havingValue = "mysql")
 @EnableConfigurationProperties({DatasourceProperties.class})
 public class MySqlConfig {
     @PostConstruct
