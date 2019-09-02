@@ -24,6 +24,15 @@ public class SpanContext {
     /**
      * 构造函数.
      *
+     * @param carrier 分布式的搬运对象
+     */
+    public SpanContext(Carrier carrier) {
+        this(carrier.traceId, carrier.spanId, carrier.baggage);
+    }
+
+    /**
+     * 构造函数.
+     *
      * @param traceId tracer的id
      * @param spanId  span的id
      * @param baggage spanContext的传递信息
@@ -100,5 +109,38 @@ public class SpanContext {
                 ", spanId='" + spanId + '\'' +
                 ", traceId='" + traceId + '\'' +
                 '}';
+    }
+
+    /**
+     * 分布式调用的搬运类.
+     */
+    public static class Carrier {
+        private String spanId;
+        private String traceId;
+        private Map<String, String> baggage;
+
+        public String getSpanId() {
+            return spanId;
+        }
+
+        public void setSpanId(String spanId) {
+            this.spanId = spanId;
+        }
+
+        public String getTraceId() {
+            return traceId;
+        }
+
+        public void setTraceId(String traceId) {
+            this.traceId = traceId;
+        }
+
+        public Map<String, String> getBaggage() {
+            return baggage;
+        }
+
+        public void setBaggage(Map<String, String> baggage) {
+            this.baggage = baggage;
+        }
     }
 }

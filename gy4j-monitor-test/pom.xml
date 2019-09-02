@@ -13,5 +13,6 @@
     <packaging>pom</packaging>
     <modules>
         <module>test-plugins-test-bytebuddy</module>
+        <module>test-plugins-spring-mvc-annotation</module>
     </modules>
 </project>

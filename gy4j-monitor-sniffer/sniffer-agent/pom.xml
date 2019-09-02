@@ -55,6 +55,7 @@
                             <artifactSet>
                                 <excludes>
                                     <exclude>com.lmax:*</exclude>
+                                    <exclude>com.google.*:*</exclude>
                                 </excludes>
                             </artifactSet>
                         </configuration>

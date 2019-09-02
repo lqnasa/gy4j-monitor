@@ -11,8 +11,15 @@ public class Constants {
      */
     public static final String LINE_SEPARATOR = System.getProperty("line.separator", "\n");
 
+    /**
+     * 分布式传播的Key.
+     */
+    public static final String CARRIER_KEY = "SA_CONTEXT";
+
     public static class Tag {
         public static final String TAG_COMPONENT = "component";
+        public static final String TAG_HTTP_METHOD = "httpMethod";
+        public static final String TAG_HTTP_URL = "httpUrl";
         public static final String TAG_ERROR = "error";
         public static final String TAG_ERROR_MESSAGE = "errorMessage";
         public static final String TAG_ERROR_STACK = "errorStack";

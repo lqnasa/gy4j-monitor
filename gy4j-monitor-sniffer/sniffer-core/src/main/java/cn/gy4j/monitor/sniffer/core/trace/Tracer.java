@@ -2,6 +2,7 @@ package cn.gy4j.monitor.sniffer.core.trace;
 
 import cn.gy4j.monitor.sniffer.core.logging.LoggerFactory;
 import cn.gy4j.monitor.sniffer.core.logging.api.ILogger;
+import cn.gy4j.monitor.sniffer.core.util.GsonUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,5 +72,29 @@ public class Tracer {
             return;
         }
         this.finishedSpans.add(span);
+    }
+    /**
+     * 把spanContext转换为Carrier的json串.
+     *
+     * @param spanContext spanContext对象
+     * @return
+     */
+    public String formatCarrierContext(SpanContext spanContext) {
+        SpanContext.Carrier carrier = new SpanContext.Carrier();
+        carrier.setSpanId(spanContext.getSpanId());
+        carrier.setTraceId(spanContext.getTraceId());
+        carrier.setBaggage(spanContext.getBaggage());
+        return GsonUtil.objectToJson(carrier);
+    }
+
+    /**
+     * Carrier的json串转spanContext对象.
+     *
+     * @param carrierContext Carrier的json串
+     * @return
+     */
+    public SpanContext parseCarrierContext(String carrierContext) {
+        SpanContext.Carrier carrier = GsonUtil.jsonToObject(carrierContext, SpanContext.Carrier.class);
+        return new SpanContext(carrier);
     }
 }
