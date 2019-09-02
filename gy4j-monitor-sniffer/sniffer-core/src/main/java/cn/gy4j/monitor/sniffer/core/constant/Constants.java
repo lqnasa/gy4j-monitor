@@ -23,6 +23,8 @@ public class Constants {
         public static final String TAG_ERROR = "error";
         public static final String TAG_ERROR_MESSAGE = "errorMessage";
         public static final String TAG_ERROR_STACK = "errorStack";
+        public static final String TAG_RPC_URL = "rpcUrl";
+        public static final String TAG_PEER_ADDRESS = "peerAddress";
         public static final String TAG_ORDER = "order";
         public static final String TAG_ARGUMENTS = "arguments";
     }

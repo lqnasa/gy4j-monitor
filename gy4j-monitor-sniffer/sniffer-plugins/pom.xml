@@ -15,6 +15,7 @@
         <module>plugins-test-bytebuddy</module>
         <module>plugins-spring-mvc-annotation</module>
         <module>plugins-spring-resttemplate</module>
+        <module>plugins-dubbo</module>
     </modules>
 
     <properties>
