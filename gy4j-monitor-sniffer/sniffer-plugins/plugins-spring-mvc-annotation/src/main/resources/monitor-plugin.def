@@ -1,1 +1,1 @@
-spring-resttemplate=cn.gy4j.monitor.sniffer.plugins.spring.mvc.annotation.ControllerPlugin
+spring-mvc-annotation=cn.gy4j.monitor.sniffer.plugins.spring.mvc.annotation.ControllerPlugin
