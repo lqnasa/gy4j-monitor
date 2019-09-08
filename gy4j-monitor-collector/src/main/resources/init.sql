@@ -17,7 +17,7 @@ CREATE TABLE `monitor_tracer` (
   `error_message` LONGTEXT DEFAULT NULL COMMENT '异常信息',
   `error_stack` LONGTEXT DEFAULT NULL COMMENT '异常堆栈信息',
   `user_id` varchar(64) DEFAULT NULL COMMENT 'Session里面的用户ID',
-  `reference_type` int(11) DEFAULT NULL COMMENT '依赖类型：0 父子，1 跟随',
+  `reference_type` varchar (64) DEFAULT NULL COMMENT '依赖类型',
   `hostname` varchar(64) DEFAULT NULL COMMENT '主机名',
   `ip` varchar(32) DEFAULT NULL COMMENT 'ip',
   `seq` int(11) DEFAULT NULL COMMENT '排序',

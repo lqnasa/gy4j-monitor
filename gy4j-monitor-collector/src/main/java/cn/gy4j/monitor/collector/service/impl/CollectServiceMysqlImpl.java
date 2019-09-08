@@ -22,10 +22,10 @@ public class CollectServiceMysqlImpl extends AbstractCollectService {
     @Override
     public void saveTracer(MonitorTracer monitorTracer) {
         String tags = GsonUtil.objectToJson(monitorTracer.getTags());
-        jdbcTemplate.update("INSERT INTO `zy_monitor`.`monitor_tracer`(`id`, `create_time`, `server_name`, `operation_name`, " +
+        jdbcTemplate.update("INSERT INTO `monitor_tracer`(`id`, `create_time`, `server_name`, `operation_name`, " +
                         "`span_id`, `trace_id`, `parent_id`, `server_instance_id`, `component`, `arguments`, `start_time`, `finish_time`, " +
                         "`cost_time`, `tags`, `error`, `error_message`, `error_stack`, `reference_type`, `hostname`, `ip`, `seq`) " +
-                        "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", monitorTracer.getId(), monitorTracer.getCreateTime(), monitorTracer.getServerName(),
+                        "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", monitorTracer.getId(), monitorTracer.getCreateTime(), monitorTracer.getServerName(),
                 monitorTracer.getOperationName(), monitorTracer.getSpanId(), monitorTracer.getTraceId(), monitorTracer.getParentId(), monitorTracer.getServerInstanceId(),
                 monitorTracer.getComponent(), monitorTracer.getArguments(), monitorTracer.getStartTime(), monitorTracer.getFinishTime(), monitorTracer.getCostTime(),
                 tags, monitorTracer.isError(), monitorTracer.getErrorMessage(), monitorTracer.getErrorStack(),monitorTracer.getReferenceType(), monitorTracer.getHostname(),
