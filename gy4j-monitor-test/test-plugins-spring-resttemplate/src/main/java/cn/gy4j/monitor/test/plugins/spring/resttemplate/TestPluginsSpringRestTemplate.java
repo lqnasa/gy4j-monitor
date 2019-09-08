@@ -19,7 +19,7 @@ public class TestPluginsSpringRestTemplate {
      */
     public static void main(String[] args) {
         RestTemplate restTemplate = new RestTemplate();
-        String result = restTemplate.getForObject("https://www.baidu.com", String.class);
+        String result = restTemplate.getForObject("https://www.baidu.com/s", String.class);
         logger.info(result);
     }
 }
