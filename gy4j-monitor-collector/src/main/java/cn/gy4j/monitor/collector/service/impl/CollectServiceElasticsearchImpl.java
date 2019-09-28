@@ -21,7 +21,6 @@ import java.io.IOException;
  */
 @Service
 @Slf4j
-@ConditionalOnProperty(name = "store.type", havingValue = "es")
 public class CollectServiceElasticsearchImpl extends AbstractCollectService {
 
 

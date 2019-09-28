@@ -17,7 +17,6 @@ import java.util.List;
  * Date     2019-08-19
  */
 @Configuration
-@ConditionalOnProperty(name = "store.type", havingValue = "es")
 public class ElasticsearchConfig {
     @Value("#{'${spring.elasticsearch.jest.uris}'.split(',')}")
     private List<String> uris;
