@@ -16,6 +16,11 @@ public class DateUtil {
     private static final String DATEFORMAT_FULL = "yyyy-MM-dd HH:mm:ss:SSS";
 
     /**
+     * 日期格式:年.月.日.时.分.秒.
+     */
+    private static final String DATEFORMAT_FILE = "yyyy.MM.dd.HH.mm.ss";
+
+    /**
      * 当前的毫秒
      *
      * @return
@@ -32,5 +37,15 @@ public class DateUtil {
      */
     public static String getFullFormat(Date date) {
         return new SimpleDateFormat(DATEFORMAT_FULL).format(date);
+    }
+
+    /**
+     * 日期转换为格式:年.月.日.时.分.秒.
+     *
+     * @param date 被转换的日期
+     * @return 格式化的日期字符串
+     */
+    public static String getFormatForFile(Date date) {
+        return new SimpleDateFormat(DATEFORMAT_FILE).format(date);
     }
 }
