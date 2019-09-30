@@ -65,7 +65,7 @@ public class FileWriter implements IWriter, EventHandler<FileWriter.LoggerEvent>
     /**
      * 日志输出.
      *
-     * @param message  日志内容
+     * @param message 日志内容
      */
     @Override
     public void write(String message) {
@@ -125,7 +125,7 @@ public class FileWriter implements IWriter, EventHandler<FileWriter.LoggerEvent>
                 public Object call() throws Exception {
                     new File(AgentConfig.Logging.PATH, AgentConfig.Logging.FILE_NAME)
                             .renameTo(new File(AgentConfig.Logging.PATH,
-                                    AgentConfig.Logging.FILE_NAME + DateUtil.getFullFormat(new Date())));
+                                    AgentConfig.Logging.FILE_NAME + "." + DateUtil.getFormatForFile(new Date())));
                     return null;
                 }
             });
