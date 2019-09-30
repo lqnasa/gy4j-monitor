@@ -69,6 +69,10 @@ public class FileWriter implements IWriter, EventHandler<FileWriter.LoggerEvent>
      */
     @Override
     public void write(String message) {
+        // 如果日志的buffer满了，则抛弃日志，避免应用阻塞
+        if(buffer.remainingCapacity() == 0){
+            return;
+        }
         long next = buffer.next();
         try {
             LoggerEvent logEvent = buffer.get(next);

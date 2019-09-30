@@ -1,5 +1,7 @@
 package cn.gy4j.monitor.sniffer.core.transport;
 
+import cn.gy4j.monitor.sniffer.core.logging.LoggerFactory;
+import cn.gy4j.monitor.sniffer.core.logging.api.ILogger;
 import cn.gy4j.monitor.sniffer.core.remote.RemoteManager;
 import cn.gy4j.monitor.sniffer.core.trace.Tracer;
 import com.lmax.disruptor.EventFactory;
@@ -14,6 +16,8 @@ import com.lmax.disruptor.util.DaemonThreadFactory;
  * Date     2019-08-18
  */
 public class TransportManager {
+    private static final ILogger logger = LoggerFactory.getLogger(TransportManager.class);
+
     private static final int BUFFER_SIZE = 1024 * 4;
     private static final int THREAD_COUNT = 8;
     private static TransportManager INSTANCE;
@@ -73,6 +77,11 @@ public class TransportManager {
      * @param content 采集内存
      */
     public void transport(String content) {
+        // 如果采集的队列满了，则抛弃并给出警告，避免应用阻塞
+        if (buffer.remainingCapacity() == 0) {
+            logger.warn("队列满了！");
+            return;
+        }
         long next = buffer.next();
         try {
             TransportEntity transportEntity = buffer.get(next);

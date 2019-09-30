@@ -10,6 +10,8 @@ import com.lmax.disruptor.WorkHandler;
 import com.lmax.disruptor.dsl.Disruptor;
 import com.lmax.disruptor.util.DaemonThreadFactory;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,6 +26,8 @@ import javax.annotation.PostConstruct;
 @Slf4j
 @RestController
 public class CollectController {
+    private static final Logger logger = LoggerFactory.getLogger(CollectController.class);
+
     private static final int BUFFER_SIZE = 1024 * 16;
     private static final int THREAD_COUNT = 8;
 
@@ -77,8 +81,10 @@ public class CollectController {
     }
 
     private void saveContent(String content) {
-        if (log.isInfoEnabled()) {
-            log.info("saveContent:" + buffer.remainingCapacity() + "," + content);
+        // 如果采集的队列满了，则抛弃并给出警告，避免应用阻塞
+        if (buffer.remainingCapacity() == 0) {
+            logger.warn("队列满了！");
+            return;
         }
         long next = buffer.next();
         try {

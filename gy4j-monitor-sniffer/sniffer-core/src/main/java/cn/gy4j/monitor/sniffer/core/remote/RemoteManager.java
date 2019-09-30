@@ -128,8 +128,6 @@ public class RemoteManager {
     public static void send(String content) {
         if (isActive) {
             post(AgentConfig.Remote.COLLECTOR_URL, RemoteEvent.TRACER, content);
-        } else {
-            logger.warn("采集服务不可用：" + content);
         }
     }
 
@@ -188,7 +186,7 @@ public class RemoteManager {
             }
         }
         if (remoteEvent != RemoteEvent.HEART_BEAT) {
-            logger.warn("采集异常：" + remoteEvent + "," + content);
+            logger.warn("采集异常");
         }
         return false;
     }
