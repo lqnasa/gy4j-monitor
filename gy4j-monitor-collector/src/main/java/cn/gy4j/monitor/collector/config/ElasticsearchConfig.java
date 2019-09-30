@@ -31,7 +31,7 @@ public class ElasticsearchConfig {
         JestClientFactory factory = new JestClientFactory();
         factory.setHttpClientConfig(new HttpClientConfig
                 .Builder(uris)
-                .gson(new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create())
+                .gson(new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").create())
                 .multiThreaded(true)
                 .readTimeout(10000)
                 .build());

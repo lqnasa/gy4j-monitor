@@ -1,6 +1,7 @@
 package cn.gy4j.monitor.collector.service;
 
 import cn.gy4j.monitor.collector.bean.TransportTracer;
+import cn.gy4j.monitor.collector.entity.JvmInfo;
 
 /**
  * author   gy4j
@@ -14,4 +15,11 @@ public interface CollectService {
      * @param transportTracer 分布式采集对象
      */
     void saveTracer(TransportTracer transportTracer) throws Exception;
+
+    /**
+     * 保存jvmInfo对象.
+     *
+     * @param jvmInfo jvm信息
+     */
+    void saveJvm(JvmInfo jvmInfo) throws Exception;
 }

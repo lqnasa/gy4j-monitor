@@ -102,15 +102,6 @@ public class SpanContext {
         return this.baggage.get(key);
     }
 
-    @Override
-    public String toString() {
-        return "SpanContext{" +
-                "baggage=" + baggage +
-                ", spanId='" + spanId + '\'' +
-                ", traceId='" + traceId + '\'' +
-                '}';
-    }
-
     /**
      * 分布式调用的搬运类.
      */

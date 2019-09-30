@@ -1,6 +1,7 @@
 package cn.gy4j.monitor.sniffer.agent;
 
 import cn.gy4j.monitor.sniffer.core.config.AgentConfigInitializer;
+import cn.gy4j.monitor.sniffer.core.jvm.JvmInfoManager;
 import cn.gy4j.monitor.sniffer.core.logging.LoggerFactory;
 import cn.gy4j.monitor.sniffer.core.logging.api.ILogger;
 import cn.gy4j.monitor.sniffer.core.plugin.PluginsManager;
@@ -43,6 +44,8 @@ public class SnifferAgent {
         PluginsManager.init();
         // 初始化采集
         RemoteManager.init();
+        // 初始化jvm信息收集
+        JvmInfoManager.init();
 
         // 基于ByteBuddy建立agent规则
         final ByteBuddy byteBuddy = new ByteBuddy().with(TypeValidation.ENABLED);

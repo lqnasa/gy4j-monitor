@@ -1,7 +1,9 @@
 package cn.gy4j.monitor.sniffer.core.transport;
 
 import cn.gy4j.monitor.sniffer.core.config.AgentConfig;
+import cn.gy4j.monitor.sniffer.core.remote.RemoteEvent;
 import cn.gy4j.monitor.sniffer.core.util.GsonUtil;
+import sun.plugin2.message.transport.Transport;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +13,7 @@ import java.util.List;
  * Email    76429197@qq.com
  * Date     2019-08-18
  */
-public class TransportTracer {
+public class TransportTracer implements Transportor {
     private String serverName;
     private String serverInstanceId;
     private String hostname;
@@ -70,7 +72,12 @@ public class TransportTracer {
     }
 
     @Override
-    public String toString() {
+    public RemoteEvent getRemoteEvent() {
+        return RemoteEvent.TRACER;
+    }
+
+    @Override
+    public String getContent() {
         return GsonUtil.objectToJson(this);
     }
 }

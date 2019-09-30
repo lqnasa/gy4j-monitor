@@ -270,13 +270,4 @@ public class Span {
         transportSpan.setReferenceType(SpanReference.REFERENCES_CHILD_OF);
         return transportSpan;
     }
-    @Override
-    public String toString() {
-        return "Span{" +
-                "context=" + context +
-                ", parentId='" + parentId + '\'' +
-                ", operationName='" + operationName + '\'' +
-                ", tags='" + tags + '\'' +
-                '}';
-    }
 }

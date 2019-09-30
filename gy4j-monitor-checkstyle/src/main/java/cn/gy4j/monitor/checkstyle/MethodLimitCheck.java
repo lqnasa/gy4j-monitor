@@ -10,7 +10,7 @@ import com.puppycrawl.tools.checkstyle.api.TokenTypes;
  * Date     2019-08-17
  */
 public class MethodLimitCheck extends AbstractCheck {
-    private static final int DEFAULT_MAX = 30;
+    private static final int DEFAULT_MAX = 50;
     private int max = DEFAULT_MAX;
 
     @Override

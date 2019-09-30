@@ -23,6 +23,7 @@ public class AgentConfig {
         public static String SERVER_INSTANCE_ID;
         public static String HOSTNAME;
         public static String IP;
+        public static int JVM_COLLECT_INTEVAL = 10;// jvm信息采集间隔，秒
     }
 
     public static class Remote {

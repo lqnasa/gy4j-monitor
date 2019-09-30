@@ -59,11 +59,22 @@ public class Tracer {
             if (logger.isDebugEnable()) {
                 logger.debug("Tracer.close:" + finishedSpans);
             }
-            TransportManager.getInstance().transport(this);
+            transport();
             TracerManager.clear();
             this.isClosed = true;
             this.finishedSpans.clear();
         }
+    }
+
+    /**
+     * 采集信息传输.
+     */
+    private void transport() {
+        TransportTracer transportTracer = this.getTransportTracer();
+        if (transportTracer.getSpans() == null || transportTracer.getSpans().size() == 0) {
+            return;
+        }
+        TransportManager.getInstance().transport(transportTracer);
     }
 
     /**
@@ -77,6 +88,7 @@ public class Tracer {
         }
         this.finishedSpans.add(span);
     }
+
     /**
      * 把spanContext转换为Carrier的json串.
      *

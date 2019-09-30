@@ -2,6 +2,7 @@ package cn.gy4j.monitor.sniffer.core.transport;
 
 import cn.gy4j.monitor.sniffer.core.logging.LoggerFactory;
 import cn.gy4j.monitor.sniffer.core.logging.api.ILogger;
+import cn.gy4j.monitor.sniffer.core.remote.RemoteEvent;
 import cn.gy4j.monitor.sniffer.core.remote.RemoteManager;
 import cn.gy4j.monitor.sniffer.core.trace.Tracer;
 import com.lmax.disruptor.EventFactory;
@@ -11,6 +12,8 @@ import com.lmax.disruptor.dsl.Disruptor;
 import com.lmax.disruptor.util.DaemonThreadFactory;
 
 /**
+ * 传输管理.
+ * <p>
  * author   gy4j
  * Email    76429197@qq.com
  * Date     2019-08-18
@@ -61,22 +64,19 @@ public class TransportManager {
     /**
      * 采集MonitorTracer.
      *
-     * @param tracer tracer对象
+     * @param transportor 传输对象.
      */
-    public void transport(Tracer tracer) {
-        TransportTracer transportTracer = tracer.getTransportTracer();
-        if (transportTracer.getSpans() == null || transportTracer.getSpans().size() == 0) {
-            return;
-        }
-        transport(transportTracer.toString());
+    public void transport(Transportor transportor) {
+        transport(transportor.getRemoteEvent(), transportor.getContent());
     }
 
     /**
      * push到queue进行采集.
      *
-     * @param content 采集内存
+     * @param remoteEvent 采集事件
+     * @param content     采集内容
      */
-    public void transport(String content) {
+    public void transport(RemoteEvent remoteEvent, String content) {
         // 如果采集的队列满了，则抛弃并给出警告，避免应用阻塞
         if (buffer.remainingCapacity() == 0) {
             logger.warn("队列满了！");
@@ -85,6 +85,7 @@ public class TransportManager {
         long next = buffer.next();
         try {
             TransportEntity transportEntity = buffer.get(next);
+            transportEntity.setRemoteEvent(remoteEvent);
             transportEntity.setContent(content);
         } finally {
             buffer.publish(next);
@@ -95,8 +96,9 @@ public class TransportManager {
         @Override
         public void onEvent(TransportEntity entity) {
             try {
-                RemoteManager.send(entity.getContent());
+                RemoteManager.send(entity.getRemoteEvent(), entity.getContent());
             } finally {
+                entity.setRemoteEvent(null);
                 entity.setContent(null);
             }
         }

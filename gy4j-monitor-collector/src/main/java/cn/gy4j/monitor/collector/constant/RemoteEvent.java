@@ -6,5 +6,5 @@ package cn.gy4j.monitor.collector.constant;
  * Date     2019-08-18
  */
 public enum RemoteEvent {
-    HEART_BEAT, TRACER
+    HEART_BEAT, TRACER, JVM
 }

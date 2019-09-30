@@ -2,6 +2,7 @@ package cn.gy4j.monitor.collector.controller;
 
 import cn.gy4j.monitor.collector.bean.TransportTracer;
 import cn.gy4j.monitor.collector.constant.RemoteEvent;
+import cn.gy4j.monitor.collector.entity.JvmInfo;
 import cn.gy4j.monitor.collector.service.CollectService;
 import cn.gy4j.monitor.collector.util.GsonUtil;
 import com.lmax.disruptor.EventFactory;
@@ -69,9 +70,9 @@ public class CollectController {
         try {
             if (event == RemoteEvent.HEART_BEAT) {
                 return true;
-            } else if (event == RemoteEvent.TRACER) {
+            } else {
                 //异步队列多线程处理
-                saveContent(content);
+                saveContent(event, content);
                 return true;
             }
         } catch (Exception ex) {
@@ -80,7 +81,7 @@ public class CollectController {
         return false;
     }
 
-    private void saveContent(String content) {
+    private void saveContent(RemoteEvent remoteEvent, String content) {
         // 如果采集的队列满了，则抛弃并给出警告，避免应用阻塞
         if (buffer.remainingCapacity() == 0) {
             logger.warn("队列满了！");
@@ -89,6 +90,7 @@ public class CollectController {
         long next = buffer.next();
         try {
             ContentEntity transportEntity = buffer.get(next);
+            transportEntity.setRemoteEvent(remoteEvent);
             transportEntity.setContent(content);
         } finally {
             buffer.publish(next);
@@ -96,7 +98,16 @@ public class CollectController {
     }
 
     public class ContentEntity {
+        private RemoteEvent remoteEvent;
         private String content;
+
+        public RemoteEvent getRemoteEvent() {
+            return remoteEvent;
+        }
+
+        public void setRemoteEvent(RemoteEvent remoteEvent) {
+            this.remoteEvent = remoteEvent;
+        }
 
         public String getContent() {
             return content;
@@ -112,10 +123,18 @@ public class CollectController {
         @Override
         public void onEvent(ContentEntity entity) {
             try {
-                TransportTracer transportTracer = GsonUtil.jsonToObject(entity.getContent(), TransportTracer.class);
-                collectService.saveTracer(transportTracer);
+                if (entity.getRemoteEvent() == RemoteEvent.TRACER) {
+                    TransportTracer transportTracer = GsonUtil.jsonToObject(entity.getContent(), TransportTracer.class);
+                    collectService.saveTracer(transportTracer);
+                } else if (entity.getRemoteEvent() == RemoteEvent.JVM) {
+                    JvmInfo jvmInfo = GsonUtil.jsonToObject(entity.getContent(), JvmInfo.class);
+                    collectService.saveJvm(jvmInfo);
+                }
             } catch (Exception ex) {
                 log.warn("写入异常：" + entity.getContent(), ex);
+            } finally {
+                entity.setRemoteEvent(null);
+                entity.setContent(null);
             }
         }
     }

@@ -123,11 +123,12 @@ public class RemoteManager {
     /**
      * 数据采集.
      *
-     * @param content 采集内容
+     * @param remoteEvent 采集事件
+     * @param content     采集内容
      */
-    public static void send(String content) {
+    public static void send(RemoteEvent remoteEvent, String content) {
         if (isActive) {
-            post(AgentConfig.Remote.COLLECTOR_URL, RemoteEvent.TRACER, content);
+            post(AgentConfig.Remote.COLLECTOR_URL, remoteEvent, content);
         }
     }
 
