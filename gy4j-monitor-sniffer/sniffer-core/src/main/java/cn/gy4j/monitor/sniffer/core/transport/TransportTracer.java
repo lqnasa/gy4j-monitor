@@ -3,7 +3,6 @@ package cn.gy4j.monitor.sniffer.core.transport;
 import cn.gy4j.monitor.sniffer.core.config.AgentConfig;
 import cn.gy4j.monitor.sniffer.core.remote.RemoteEvent;
 import cn.gy4j.monitor.sniffer.core.util.GsonUtil;
-import sun.plugin2.message.transport.Transport;
 
 import java.util.ArrayList;
 import java.util.List;
